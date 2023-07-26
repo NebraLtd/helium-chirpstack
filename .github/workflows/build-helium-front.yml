@@ -15,8 +15,8 @@ jobs:
           sudo npm install -g yarn
       - name: Install make
         run: |
-          apt-get update
-          apt-get install make
+          sudo apt-get update
+          sudo apt-get install make
       - name: Run Front Build
         run: |
           make front
