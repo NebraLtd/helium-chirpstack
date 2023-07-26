@@ -10,13 +10,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - name: Install yarn
-        run: |
-          sudo npm install -g yarn
-      - name: Install make
-        run: |
-          sudo apt-get update
-          sudo apt-get install make
       - name: Run Front Build
         run: |
           make front
