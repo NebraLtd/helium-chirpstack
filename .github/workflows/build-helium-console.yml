@@ -1,4 +1,4 @@
-name: Build Distributable Docker Container
+name: Build Backend Docker Container
 
 on:
   push:

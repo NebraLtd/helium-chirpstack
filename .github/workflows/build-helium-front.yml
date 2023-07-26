@@ -1,0 +1,23 @@
+name: Build Front Docker Container
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install yarn
+        run: |
+          sudo npm install -g yarn
+      - name: Install make
+        run: |
+          apt-get update
+          apt-get install make
+      - name: Run Front Build
+        run: |
+          make front
+          ls -alh nuxt/console/dist

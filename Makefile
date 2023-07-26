@@ -3,10 +3,10 @@ REDISIP=$(shell docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddres
 MQTTIP=$(shell docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' `docker ps | grep mosqui | cut -d " " -f 1`) 
 NETWORK=$(shell docker network ls | grep chirpstack | cut -d " " -f 1)
 CONSOLE_NAME="Helium-Console"
-CONSOLE_TERMS=https://...
-API_HOST=
-CHIRPSTACK_HOST=
-CONSOLE_DIR=/helium
+CONSOLE_TERMS=https://nebra.io/
+API_HOST=https://helium-console.nebra.com
+CHIRPSTACK_HOST=https://chirpstack.nebra.com
+CONSOLE_DIR=./helium
 
 .FORCE:
 
@@ -20,7 +20,7 @@ init: .FORCE
 front: .FORCE
 	export CONSOLE_NAME=$(CONSOLE_NAME) ; export CONSOLE_TERMS=$(CONSOLE_TERMS) ; \
 	export API_HOST=$(API_HOST) ; export CHIRPSTACK_HOST=$(CHIRPSTACK_HOST) ; \
-	cd nuxt/console && yarn install --ignore-engines && yarn generate && cp -R dist/* /helium/front/
+	cd nuxt/console && yarn install --ignore-engines && yarn generate
 
 back: .FORCE
 	./gradlew build -x test && docker build -t disk91/console .
