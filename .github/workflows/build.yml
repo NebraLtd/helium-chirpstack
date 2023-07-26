@@ -1,0 +1,32 @@
+name: Build Distributable Docker Container
+
+on:
+  push:
+    branches:
+     - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update Packages
+        run: |
+          sudo apt-get update -y
+      - name: Install Prerequisites
+        run: |
+          sudo apt-get install default-jdk make
+      - name: Run Gradle Build
+        run: |
+          ./gradlew build -x test
+      - name: Run Docker Build
+        run: |
+          docker build -t nebraltd/helium-console .
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker Push
+        run: |
+          docker push nebraltd/helium-console
